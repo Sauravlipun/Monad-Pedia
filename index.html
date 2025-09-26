@@ -1,147 +1,113 @@
-import React from "react";
-import Globe from "react-globe.gl";
-
-// -----------------------
-// Monad Projects Data
-// -----------------------
-const projects = [
-  { name: "0x", category: "DeFi", handle: "@0x", description: "Embeddable swaps with aggregated liquidity from 130+ sources", funding: "N/A", location: { lat: 37.7749, lng: -122.4194 } },
-  { name: "Acurast", category: "DeFi", handle: "@Acurast", description: "Confidential AI and privacy-focused computation using smartphones", funding: "N/A", location: { lat: 52.52, lng: 13.405 } },
-  { name: "Aionex", category: "DeFi", handle: "@aionex_", description: "Derivatives CLOB DEX", funding: "N/A", location: { lat: 34.0522, lng: -118.2437 } },
-  { name: "Amertis", category: "DeFi", handle: "@Amertis", description: "DEX aggregator with deep liquidity and optimized rates", funding: "N/A", location: { lat: 51.5074, lng: -0.1278 } },
-  { name: "Ammalgam", category: "DeFi", handle: "@ammalgam", description: "Decentralized Lending Exchange", funding: "N/A", location: { lat: 48.8566, lng: 2.3522 } },
-  { name: "Atlantis", category: "DeFi", handle: "@AtlantisDEX", description: "Modular V4 DEX with cross-chain swaps/launchpad/farming", funding: "N/A", location: { lat: 35.6895, lng: 139.6917 } },
-  { name: "Azaar", category: "DeFi", handle: "@AzaarDEX", description: "High-performance DEX aggregator", funding: "N/A", location: { lat: 40.7128, lng: -74.006 } },
-  { name: "AZEx", category: "DeFi", handle: "@AZEx", description: "A-Z DeFi hub with 100x leverage/AI copytrading", funding: "N/A", location: { lat: 37.5665, lng: 126.978 } },
-  { name: "Balancer", category: "DeFi", handle: "@Balancer", description: "Decentralized AMM protocol", funding: "N/A", location: { lat: 41.9028, lng: 12.4964 } },
-  { name: "Bean Exchange", category: "DeFi", handle: "@Bean_DEX", description: "Gamified spot/perp trading DEX", funding: "N/A", location: { lat: 55.7558, lng: 37.6173 } },
-  { name: "Bebop", category: "DeFi", handle: "@Bebop", description: "Efficient crypto trading app and API", funding: "N/A", location: { lat: 34.6937, lng: 135.5023 } },
-  { name: "Bima", category: "DeFi", handle: "@Bima", description: "DeFi protocol", funding: "N/A", location: { lat: 1.3521, lng: 103.8198 } },
-  { name: "CloberDEX", category: "DeFi", handle: "@CloberDEX", description: "Orderbook DEX", funding: "N/A", location: { lat: 35.6762, lng: 139.6503 } },
-  { name: "Composite Labs", category: "DeFi", handle: "@CompositeLabs", description: "Unified spot/derivs/lending venue", funding: "N/A", location: { lat: 37.7749, lng: -122.4194 } },
-  { name: "Cultdottrade", category: "DeFi", handle: "@cultdottrade", description: "Trading tools with social signals", funding: "N/A", location: { lat: 51.1657, lng: 10.4515 } },
-  { name: "Dirol Protocol", category: "DeFi", handle: "@DirolProtocol", description: "DeFi primitive", funding: "N/A", location: { lat: 48.8566, lng: 2.3522 } },
-  { name: "Drake Exchange", category: "DeFi", handle: "@DrakeExchange", description: "Infra and tooling for dApps", funding: "N/A", location: { lat: 40.7128, lng: -74.006 } },
-  { name: "ELFi Protocol", category: "DeFi", handle: "@ELFiProtocol", description: "Decentralized derivatives exchange", funding: "N/A", location: { lat: 34.0522, lng: -118.2437 } },
-  { name: "Kuru Exchange", category: "DeFi", handle: "@KuruExchange", description: "On-chain orderbook DEX with hybrid CLOB/AMM", funding: "$13.6M", location: { lat: 51.5074, lng: -0.1278 } },
-  { name: "Mace", category: "DeFi", handle: "@mace_ag", description: "Spot DEX aggregator", funding: "N/A", location: { lat: 55.7558, lng: 37.6173 } },
-  { name: "Monday Trade", category: "DeFi", handle: "@MondayTrade_", description: "Trading platform", funding: "N/A", location: { lat: 40.4168, lng: -3.7038 } },
-  { name: "Monorail", category: "DeFi", handle: "@monorail_xyz", description: "Spot DEX aggregator", funding: "N/A", location: { lat: 37.7749, lng: -122.4194 } },
-  { name: "Morpheus Farm", category: "DeFi", handle: "@Morpheus_Farm", description: "Yield farming protocol", funding: "N/A", location: { lat: 48.8566, lng: 2.3522 } },
-  { name: "Narwhal Finance", category: "DeFi", handle: "@Narwhal_Finance", description: "Gamified perp DEX with liquidity incentives", funding: "$1M", location: { lat: 40.7128, lng: -74.006 } },
-  { name: "PancakeSwap", category: "DeFi", handle: "@PancakeSwap", description: "AMM DEX integration", funding: "N/A", location: { lat: 1.3521, lng: 103.8198 } },
-  { name: "Perpl", category: "DeFi", handle: "@perpltrade", description: "Perpetual DEX with low-fee CLOB", funding: "$9.25M", location: { lat: 37.7749, lng: -122.4194 } },
-  { name: "Pinot Finance", category: "DeFi", handle: "@pinotfinance", description: "Finance protocol", funding: "N/A", location: { lat: 48.8566, lng: 2.3522 } },
-  { name: "Seertrade", category: "DeFi", handle: "@seertrade", description: "Trading platform", funding: "N/A", location: { lat: 35.6762, lng: 139.6503 } },
-  { name: "Timelock Trade", category: "DeFi", handle: "@Timelock_Trade", description: "Time-locked trading", funding: "N/A", location: { lat: 34.0522, lng: -118.2437 } },
-  { name: "ZaroS", category: "DeFi", handle: "@zarosfi", description: "Perp DEX with restaking vaults", funding: "N/A", location: { lat: 51.5074, lng: -0.1278 } },
-  { name: "zkSwap Finance", category: "DeFi", handle: "zkswap.finance", description: "ZK-based swap", funding: "N/A", location: { lat: 55.7558, lng: 37.6173 } },
-  { name: "aPriori", category: "Staking & Infrastructure", handle: "@aPriori/@apr_labs", description: "MEV-powered liquid staking", funding: "$30M", location: { lat: 48.8566, lng: 2.3522 } },
-  { name: "Accountable Data", category: "Staking & Infrastructure", handle: "@AccountableData", description: "Transparency-focused data infra", funding: "$2.3M", location: { lat: 37.7749, lng: -122.4194 } },
-  // Continue adding all remaining 100+ projects in the same format
-];
-
-// -----------------------
-// Calculate Total Funding
-// -----------------------
-const calculateTotalFunding = (projects) => {
-  return projects.reduce((acc, p) => {
-    if (p.funding && p.funding !== "N/A") {
-      const num = parseFloat(p.funding.replace(/\$|M/g, ""));
-      return acc + num * 1_000_000;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monad Ecosystem Visualization</title>
+  <script src="https://cdn.jsdelivr.net/npm/globe.gl@3.0.0/dist/globe.gl.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #2c1a4b;
+      color: #fff;
+      overflow: hidden;
     }
-    return acc;
-  }, 0);
-};
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    #globeViz {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .dashboard {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 2;
+      width: 300px;
+    }
+    .dashboard h2 {
+      margin-top: 0;
+    }
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .stat span {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="globeViz"></div>
+  <div class="dashboard">
+    <h2>Monad Ecosystem Stats</h2>
+    <div class="stat"><span>Total Projects:</span><span id="totalProjects">0</span></div>
+    <div class="stat"><span>Average Funding:</span><span id="avgFunding">$0</span></div>
+    <div class="stat"><span>Top Category:</span><span id="topCategory">N/A</span></div>
+    <canvas id="fundingChart"></canvas>
+  </div>
 
-// -----------------------
-// Styling
-// -----------------------
-const styles = {
-  container: {
-    backgroundColor: "#1B0030",
-    color: "#fff",
-    minHeight: "100vh",
-    padding: "20px",
-    fontFamily: "'Segoe UI', sans-serif",
-  },
-  globeContainer: {
-    width: "100%",
-    height: "600px",
-    marginTop: "20px",
-  },
-  stats: {
-    display: "flex",
-    justifyContent: "space-around",
-    marginBottom: "20px",
-    flexWrap: "wrap",
-  },
-  card: {
-    backgroundColor: "#2E005F",
-    border: "1px solid #5A00A0",
-    borderRadius: "8px",
-    padding: "10px",
-    margin: "5px",
-    width: "250px",
-    boxShadow: "0 0 10px #5A00A0",
-  },
-  header: {
-    textAlign: "center",
-    fontSize: "2em",
-    color: "#FF99FF",
-  },
-};
+  <script>
+    const projects = [
+      { name: '0x', category: 'DeFi (DEXs & Trading)', funding: null, location: [37.7749, -122.4194] },
+      { name: 'Acurast', category: 'DeFi (DEXs & Trading)', funding: null, location: [40.7128, -74.0060] },
+      { name: 'Aionex', category: 'DeFi (DEXs & Trading)', funding: null, location: [51.5074, -0.1278] },
+      { name: 'Amertis', category: 'DeFi (DEXs & Trading)', funding: null, location: [48.8566, 2.3522] },
+      { name: 'Ammalgam', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Atlantis', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Azaar', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'AZEx', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Balancer', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Bean Exchange', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Bebop', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Bima', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'CloberDEX', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Composite Labs', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Cultdottrade', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Dirol Protocol', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Drake Exchange', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'ELFi Protocol', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Kuru Exchange', category: 'DeFi (DEXs & Trading)', funding: 13600000, location: [34.0522, -118.2437] },
+      { name: 'Mace', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Monday Trade', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Monorail', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Morpheus Farm', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Narwhal Finance', category: 'DeFi (DEXs & Trading)', funding: 1000000, location: [34.0522, -118.2437] },
+      { name: 'PancakeSwap', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Perpl', category: 'DeFi (DEXs & Trading)', funding: 9250000, location: [34.0522, -118.2437] },
+      { name: 'Pinot Finance', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Seertrade', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Timelock Trade', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'ZaroS', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'zkSwap Finance', category: 'DeFi (DEXs & Trading)', funding: null, location: [34.0522, -118.2437] },
+      { name: 'aPriori', category: 'Staking & Infrastructure', funding: 30000000, location: [34.0522, -118.2437] },
+      { name: 'Accountable Data', category: 'Staking & Infrastructure', funding: 2300000, location: [34.0522, -118.2437] },
+      { name: 'Alchemy', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'AllDomains', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Allium', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Ambire Wallet', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Atomic Wallet', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Backpack Wallet', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Band Protocol', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Biconomy', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Catalyst', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Decent', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Entangle', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
+      { name: 'Envio Indexer', category: 'Staking & Infrastructure', funding: null, location: [34.0522, -118.2437] },
 
-// -----------------------
-// App Component
-// -----------------------
-export default function App() {
-  const totalFunding = calculateTotalFunding(projects);
-  const totalProjects = projects.length;
-
-  const categoryCount = {};
-  projects.forEach(p => {
-    categoryCount[p.category] = (categoryCount[p.category] || 0) + 1;
-  });
-
-  return (
-    <div style={styles.container}>
-      <h1 style={styles.header}>Monad Projects Globe</h1>
-
-      <div style={styles.stats}>
-        <p>Total Projects: {totalProjects}</p>
-        <p>Total Funding: ${totalFunding.toLocaleString()}</p>
-        {Object.keys(categoryCount).map(cat => (
-          <p key={cat}>{cat}: {categoryCount[cat]}</p>
-        ))}
-      </div>
-
-      <div style={styles.globeContainer}>
-        <Globe
-          globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
-          pointsData={projects}
-          pointLat={(d) => d.location.lat}
-          pointLng={(d) => d.location.lng}
-          pointColor={() => "#FF99FF"}
-          pointAltitude={0.05}
-          pointRadius={0.5}
-          onPointClick={(d) =>
-            alert(`${d.name}\nCategory: ${d.category}\nFunding: ${d.funding}\nHandle: ${d.handle}\nDescription: ${d.description}`)
-          }
-        />
-      </div>
-
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: "20px" }}>
-        {projects.map((p, i) => (
-          <div key={i} style={styles.card}>
-            <h3>{p.name}</h3>
-            <p><strong>Category:</strong> {p.category}</p>
-            <p><strong>Funding:</strong> {p.funding}</p>
-            <p><strong>Handle/Website:</strong> {p.handle}</p>
-            <p><strong>Description:</strong> {p.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+::contentReference[oaicite:1]{index=1}
+ 
